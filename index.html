@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Time</title>
+</head>
+<body>
+    <div id="time"></div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const moscowTime = now.toLocaleString('ru-RU', { 
+                timeZone: 'Europe/Moscow',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            document.getElementById('time').textContent = moscowTime;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>

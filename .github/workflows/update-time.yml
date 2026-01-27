@@ -1,0 +1,30 @@
+name: Update Moscow Time
+
+on:
+  schedule:
+    # Запускается каждые 5 минут
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Можно запустить вручную
+
+jobs:
+  update-time:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Update time file
+      run: |
+        # Получаем текущую дату и время в Москве
+        TZ='Europe/Moscow' date '+%Y-%m-%d %H:%M:%S' > time.txt
+        
+    - name: Commit and force push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add time.txt
+        git commit --amend -m "Update Moscow time" || git commit -m "Update Moscow time"
+        git push --force origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
